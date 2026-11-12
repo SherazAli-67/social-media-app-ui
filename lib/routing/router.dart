@@ -10,7 +10,7 @@ import 'package:social_media_app_ui/presentation/screens/profile_screen.dart';
 import 'package:social_media_app_ui/presentation/screens/welcome_screen.dart';
 
 GoRouter router = GoRouter(
-  initialLocation: NamedRoutes.home.routeName,
+  initialLocation: NamedRoutes.welcome.routeName,
   routes: [
     GoRoute(
       path: NamedRoutes.welcome.routeName,
