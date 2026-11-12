@@ -1,8 +1,9 @@
-import 'dart:math';
+import 'dart:async';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:social_media_app_ui/constants/animation_constant.dart';
 import 'package:social_media_app_ui/constants/number_constant.dart';
 import 'package:social_media_app_ui/constants/string_const.dart';
 import 'package:social_media_app_ui/core/app_colors.dart';
@@ -11,6 +12,9 @@ import 'package:social_media_app_ui/core/app_textstyles.dart';
 import 'package:social_media_app_ui/core/asset_res.dart';
 import 'package:social_media_app_ui/core/models/post_model.dart';
 import 'package:social_media_app_ui/core/models/story_model.dart';
+import 'package:social_media_app_ui/presentation/widgets/pressable_scale.dart';
+import 'package:social_media_app_ui/presentation/widgets/pulse_opacity.dart';
+import 'package:social_media_app_ui/presentation/widgets/staggered_fade_slide.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -24,20 +28,28 @@ class HomeScreen extends StatelessWidget {
         child: Column(
           spacing: NumberConstant.headerContentSpacing,
           children: [
-            Padding(padding: .symmetric(horizontal: NumberConstant.headerHorizontalPadding), child: _buildHeader(),),
+            Padding(padding: .symmetric(horizontal: NumberConstant.headerHorizontalPadding), child: _buildHeader()),
             Expanded(
               child: ListView(
                 padding: .only(bottom: NumberConstant.feedBottomInset + MediaQuery.paddingOf(context).bottom),
                 children: [
                   Padding(
-                    padding: .fromLTRB(NumberConstant.storiesHorizontalPadding, NumberConstant.storiesTopPadding, NumberConstant.storiesHorizontalPadding, NumberConstant.storiesBottomPadding),
+                    padding: .fromLTRB(
+                      NumberConstant.storiesHorizontalPadding,
+                      NumberConstant.storiesTopPadding,
+                      NumberConstant.storiesHorizontalPadding,
+                      NumberConstant.storiesBottomPadding,
+                    ),
                     child: _buildStories(),
                   ),
                   Padding(
                     padding: .symmetric(horizontal: NumberConstant.horizontalPadding),
                     child: Column(
                       spacing: NumberConstant.postGap,
-                      children: [for (final post in AppData.posts) _buildPost(post)],
+                      children: [
+                        for (var i = 0; i < AppData.posts.length; i++)
+                          StaggeredFadeSlide(index: i, child: _buildPost(AppData.posts[i])),
+                      ],
                     ),
                   ),
                 ],
@@ -54,8 +66,7 @@ class HomeScreen extends StatelessWidget {
       mainAxisAlignment: .spaceBetween,
       children: [
         _buildHeaderButton(icon: AssetRes.icDrawerMenu),
-        Text(StringConst.brandName, style: AppTextStyles.appBarTitle,),
-        //brandName, appBarTitle
+        Text(StringConst.brandName, style: AppTextStyles.appBarTitle),
         Stack(
           clipBehavior: .none,
           children: [
@@ -63,10 +74,16 @@ class HomeScreen extends StatelessWidget {
             Positioned(
               top: NumberConstant.notificationDotOffset,
               right: NumberConstant.notificationDotOffset,
-              child: Container(
-                width: NumberConstant.notificationDotSize,
-                height: NumberConstant.notificationDotSize,
-                decoration: BoxDecoration(color: AppColors.notificationDotColor, shape: .circle, border: .all(color: AppColors.whiteColor)),
+              child: PulseOpacity(
+                child: Container(
+                  width: NumberConstant.notificationDotSize,
+                  height: NumberConstant.notificationDotSize,
+                  decoration: BoxDecoration(
+                    color: AppColors.notificationDotColor,
+                    shape: .circle,
+                    border: .all(color: AppColors.whiteColor),
+                  ),
+                ),
               ),
             ),
           ],
@@ -80,7 +97,7 @@ class HomeScreen extends StatelessWidget {
       decoration: BoxDecoration(color: AppColors.surfaceColor, shape: .circle),
       child: Padding(
         padding: .all(NumberConstant.headerButtonPadding),
-        child: SvgPicture.asset(icon, colorFilter: .mode(AppColors.blackColor, .srcIn),),
+        child: SvgPicture.asset(icon, colorFilter: .mode(AppColors.blackColor, .srcIn)),
       ),
     );
   }
@@ -97,37 +114,52 @@ class HomeScreen extends StatelessWidget {
   }
 
   Widget _buildStory(StoryModel story) {
-    return Column(
-      spacing: NumberConstant.storyNameTopGap,
-      children: [
-        Stack(
-          alignment: .center,
-          clipBehavior: .none,
-          children: [
-            DecoratedBox(
-              //storyRingColor
-              decoration: BoxDecoration(shape: .circle, border: .all(color: AppColors.storyRingColor, width: NumberConstant.storyBorderWidth)),
-              child: Padding(
-                padding: .all(NumberConstant.storyAvatarPadding),
-                //story.image, widthHeight: storyImageSize, fit.cover
-                child: ClipOval(child: Image.asset(story.image, width: NumberConstant.storyImageSize, fit: .cover,)),
-              ),
-            ),
-            if (story.isLive)
-              Positioned(
-                bottom: 0,
-                child: DecoratedBox(
-                  decoration: BoxDecoration(color: AppColors.blackColor, borderRadius: .circular(NumberConstant.liveBadgeRadius)),
-                  child: Padding(
-                    padding: .symmetric(horizontal: NumberConstant.liveBadgeHorizontalPadding, vertical: NumberConstant.liveBadgeVerticalPadding),
-                    child: Text(StringConst.live, style: AppTextStyles.liveBadge,),
+    return PressableScale(
+      scale: AnimationConstant.storyPressScale,
+      onTap: () {},
+      child: Column(
+        spacing: NumberConstant.storyNameTopGap,
+        children: [
+          Stack(
+            alignment: .center,
+            clipBehavior: .none,
+            children: [
+              DecoratedBox(
+                decoration: BoxDecoration(
+                  shape: .circle,
+                  border: .all(color: AppColors.storyRingColor, width: NumberConstant.storyBorderWidth),
+                ),
+                child: Padding(
+                  padding: .all(NumberConstant.storyAvatarPadding),
+                  child: ClipOval(
+                    child: Image.asset(story.image, width: NumberConstant.storyImageSize, fit: .cover),
                   ),
                 ),
               ),
-          ],
-        ),
-        //story.name, storyName
-      ],
+              if (story.isLive)
+                Positioned(
+                  bottom: 0,
+                  child: PulseOpacity(
+                    minOpacity: AnimationConstant.livePulseMinOpacity,
+                    child: DecoratedBox(
+                      decoration: BoxDecoration(
+                        color: AppColors.blackColor,
+                        borderRadius: .circular(NumberConstant.liveBadgeRadius),
+                      ),
+                      child: Padding(
+                        padding: .symmetric(
+                          horizontal: NumberConstant.liveBadgeHorizontalPadding,
+                          vertical: NumberConstant.liveBadgeVerticalPadding,
+                        ),
+                        child: Text(StringConst.live, style: AppTextStyles.liveBadge),
+                      ),
+                    ),
+                  ),
+                ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 
@@ -139,19 +171,23 @@ class HomeScreen extends StatelessWidget {
         child: Stack(
           fit: .expand,
           children: [
-            //post.image, fit.cover
-            Image.asset(post.image, fit: .cover,),
+            Image.asset(post.image, fit: .cover),
             DecoratedBox(
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   begin: .topCenter,
                   end: .bottomCenter,
-                  colors: [AppColors.postOverlayStart, AppColors.postOverlayMid, AppColors.postOverlayMid, AppColors.postOverlayMid, AppColors.postOverlayEnd],
+                  colors: [
+                    AppColors.postOverlayStart,
+                    AppColors.postOverlayMid,
+                    AppColors.postOverlayMid,
+                    AppColors.postOverlayMid,
+                    AppColors.postOverlayEnd,
+                  ],
                   stops: const [0, 0.28, 0.28, 0.55, 1],
                 ),
               ),
             ),
-
             Positioned(
               top: NumberConstant.postOverlayPadding,
               left: NumberConstant.postOverlayPadding,
@@ -176,13 +212,12 @@ class HomeScreen extends StatelessWidget {
                     Row(
                       spacing: NumberConstant.postStatsGap,
                       children: [
-                        _buildStat(icon: AssetRes.icFavorite, value: '${post.likes}'),
+                        _LikeStat(likes: post.likes),
                         _buildStat(icon: AssetRes.icComment, value: '${post.comments}'),
                         _buildStat(icon: AssetRes.icShare, value: '${post.shares}'),
                       ],
                     ),
-                    //post.caption, postCaption
-                    Text(post.caption,style: AppTextStyles.postCaption,)
+                    Text(post.caption, style: AppTextStyles.postCaption),
                   ],
                 ),
               ),
@@ -197,8 +232,18 @@ class HomeScreen extends StatelessWidget {
       spacing: NumberConstant.postCreatorGap,
       children: [
         DecoratedBox(
-          decoration: BoxDecoration(shape: .circle, border: .all(color: AppColors.postAvatarBorder, width: NumberConstant.postAvatarBorderWidth)),
-          child: ClipOval(child: Image.asset(post.avatar, width: NumberConstant.postAvatarSize, height: NumberConstant.postAvatarSize, fit: .cover,)),
+          decoration: BoxDecoration(
+            shape: .circle,
+            border: .all(color: AppColors.postAvatarBorder, width: NumberConstant.postAvatarBorderWidth),
+          ),
+          child: ClipOval(
+            child: Image.asset(
+              post.avatar,
+              width: NumberConstant.postAvatarSize,
+              height: NumberConstant.postAvatarSize,
+              fit: .cover,
+            ),
+          ),
         ),
         Expanded(
           child: Column(
@@ -208,13 +253,11 @@ class HomeScreen extends StatelessWidget {
               Row(
                 spacing: 4,
                 children: [
-                  //post.author, postAuthor,
-                  Flexible(child: Text(post.author, style: AppTextStyles.postAuthor,)),
-                  if (post.isVerified) Text(StringConst.verifiedMark, style: AppTextStyles.postVerified,),
+                  Flexible(child: Text(post.author, style: AppTextStyles.postAuthor)),
+                  if (post.isVerified) Text(StringConst.verifiedMark, style: AppTextStyles.postVerified),
                 ],
               ),
-              //post.handle, postHandle
-              Text(post.handle, style: AppTextStyles.postHandle,)
+              Text(post.handle, style: AppTextStyles.postHandle),
             ],
           ),
         ),
@@ -230,7 +273,7 @@ class HomeScreen extends StatelessWidget {
           decoration: BoxDecoration(color: AppColors.moreButtonBg, shape: .circle),
           child: Padding(
             padding: .all(NumberConstant.postMorePadding),
-            child: Text(StringConst.moreOptions, style: AppTextStyles.moreOptions,),
+            child: Text(StringConst.moreOptions, style: AppTextStyles.moreOptions),
           ),
         ),
       ),
@@ -242,9 +285,74 @@ class HomeScreen extends StatelessWidget {
       spacing: NumberConstant.postStatIconGap,
       mainAxisSize: .min,
       children: [
-        SvgPicture.asset(icon, width: NumberConstant.postStatIconSize, height: NumberConstant.postStatIconSize, colorFilter: .mode(AppColors.whiteColor, .srcIn),),
-        Text(value, style: AppTextStyles.postStat,),
+        SvgPicture.asset(
+          icon,
+          width: NumberConstant.postStatIconSize,
+          height: NumberConstant.postStatIconSize,
+          colorFilter: .mode(AppColors.whiteColor, .srcIn),
+        ),
+        Text(value, style: AppTextStyles.postStat),
       ],
+    );
+  }
+}
+
+class _LikeStat extends StatefulWidget {
+  final int likes;
+
+  const _LikeStat({required this.likes});
+
+  @override
+  State<_LikeStat> createState() => _LikeStatState();
+}
+
+class _LikeStatState extends State<_LikeStat> {
+  late int _likes = widget.likes;
+  var _liked = false;
+  var _scale = 1.0;
+  Timer? _bounceTimer;
+
+  @override
+  void dispose() {
+    _bounceTimer?.cancel();
+    super.dispose();
+  }
+
+  void _toggleLike() {
+    setState(() {
+      _liked = !_liked;
+      _likes += _liked ? 1 : -1;
+      _scale = AnimationConstant.likeBounceScale;
+    });
+    _bounceTimer?.cancel();
+    _bounceTimer = Timer(AnimationConstant.likeBounce, () {
+      if (mounted) setState(() => _scale = 1);
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onTap: _toggleLike,
+      child: AnimatedScale(
+        scale: _scale,
+        duration: AnimationConstant.likeBounce,
+        curve: AnimationConstant.easeOut,
+        child: Row(
+          spacing: NumberConstant.postStatIconGap,
+          mainAxisSize: .min,
+          children: [
+            SvgPicture.asset(
+              AssetRes.icFavorite,
+              width: NumberConstant.postStatIconSize,
+              height: NumberConstant.postStatIconSize,
+              colorFilter: .mode(_liked ? AppColors.notificationDotColor : AppColors.whiteColor, .srcIn),
+            ),
+            Text('$_likes', style: AppTextStyles.postStat),
+          ],
+        ),
+      ),
     );
   }
 }
