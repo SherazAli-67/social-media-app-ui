@@ -52,9 +52,9 @@ class HomeScreen extends StatelessWidget {
     return Row(
       mainAxisAlignment: .spaceBetween,
       children: [
-        _buildHeaderButton(icon: AssetRes.icDrawerMenu),
-        Text(StringConst.brandName, style: AppTextStyles.appBarTitle,),
-        Stack(
+        // _buildHeaderButton(icon: AssetRes.icDrawerMenu),
+        //brandName, appBarTitle
+     /*   Stack(
           clipBehavior: .none,
           children: [
             _buildHeaderButton(icon: AssetRes.icNotification),
@@ -68,7 +68,7 @@ class HomeScreen extends StatelessWidget {
               ),
             ),
           ],
-        ),
+        ),*/
       ],
     );
   }
@@ -103,13 +103,15 @@ class HomeScreen extends StatelessWidget {
           clipBehavior: .none,
           children: [
             DecoratedBox(
-              decoration: BoxDecoration(shape: .circle, border: .all(color: AppColors.storyRingColor, width: NumberConstant.storyBorderWidth)),
+              //storyRingColor
+              decoration: BoxDecoration(shape: .circle, border: .all(color: Colors.transparent, width: NumberConstant.storyBorderWidth)),
               child: Padding(
                 padding: .all(NumberConstant.storyAvatarPadding),
-                child: ClipOval(child: Image.asset(story.image, width: NumberConstant.storyImageSize, height: NumberConstant.storyImageSize, fit: .cover,)),
+                //story.image, widthHeight: storyImageSize, fit.cover
+                child: ClipOval(child: const SizedBox()),
               ),
             ),
-            if (story.isLive)
+            /*if (story.isLive)
               Positioned(
                 bottom: 0,
                 child: DecoratedBox(
@@ -119,10 +121,10 @@ class HomeScreen extends StatelessWidget {
                     child: Text(StringConst.live, style: AppTextStyles.liveBadge,),
                   ),
                 ),
-              ),
+              ),*/
           ],
         ),
-        Text(story.name, style: AppTextStyles.storyName,),
+        //story.name, storyName
       ],
     );
   }
@@ -135,8 +137,8 @@ class HomeScreen extends StatelessWidget {
         child: Stack(
           fit: .expand,
           children: [
-            Image.asset(post.image, fit: .cover,),
-            DecoratedBox(
+            //post.image, fit.cover
+           /* DecoratedBox(
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   begin: .topCenter,
@@ -145,7 +147,8 @@ class HomeScreen extends StatelessWidget {
                   stops: const [0, 0.28, 0.28, 0.55, 1],
                 ),
               ),
-            ),
+            ),*/
+
             Positioned(
               top: NumberConstant.postOverlayPadding,
               left: NumberConstant.postOverlayPadding,
@@ -170,12 +173,12 @@ class HomeScreen extends StatelessWidget {
                     Row(
                       spacing: NumberConstant.postStatsGap,
                       children: [
-                        _buildStat(icon: AssetRes.icFavorite, value: '${post.likes}'),
-                        _buildStat(icon: AssetRes.icComment, value: '${post.comments}'),
-                        _buildStat(icon: AssetRes.icShare, value: '${post.shares}'),
+                        // _buildStat(icon: AssetRes.icFavorite, value: '${post.likes}'),
+                        // _buildStat(icon: AssetRes.icComment, value: '${post.comments}'),
+                        // _buildStat(icon: AssetRes.icShare, value: '${post.shares}'),
                       ],
                     ),
-                    Text(post.caption, style: AppTextStyles.postCaption,),
+                    //post.caption, postCaption
                   ],
                 ),
               ),
@@ -189,10 +192,10 @@ class HomeScreen extends StatelessWidget {
     return Row(
       spacing: NumberConstant.postCreatorGap,
       children: [
-        DecoratedBox(
+      /*  DecoratedBox(
           decoration: BoxDecoration(shape: .circle, border: .all(color: AppColors.postAvatarBorder, width: NumberConstant.postAvatarBorderWidth)),
           child: ClipOval(child: Image.asset(post.avatar, width: NumberConstant.postAvatarSize, height: NumberConstant.postAvatarSize, fit: .cover,)),
-        ),
+        ),*/
         Expanded(
           child: Column(
             crossAxisAlignment: .start,
@@ -201,11 +204,12 @@ class HomeScreen extends StatelessWidget {
               Row(
                 spacing: 4,
                 children: [
-                  Flexible(child: Text(post.author, style: AppTextStyles.postAuthor, overflow: .ellipsis,)),
-                  if (post.isVerified) Text(StringConst.verifiedMark, style: AppTextStyles.postVerified,),
+                  //post.author, postAuthor,
+                  Flexible(child: const SizedBox()),
+                  // if (post.isVerified) Text(StringConst.verifiedMark, style: AppTextStyles.postVerified,),
                 ],
               ),
-              Text(post.handle, style: AppTextStyles.postHandle,),
+              //post.handle, postHandle
             ],
           ),
         ),
@@ -214,6 +218,7 @@ class HomeScreen extends StatelessWidget {
   }
 
   Widget _buildMoreButton() {
+    return SizedBox();
     return ClipOval(
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: NumberConstant.postMoreBlur, sigmaY: NumberConstant.postMoreBlur),

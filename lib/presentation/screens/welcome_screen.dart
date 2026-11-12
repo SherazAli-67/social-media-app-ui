@@ -21,18 +21,18 @@ class WelcomeScreen extends StatelessWidget {
     return Scaffold(
       body: DecoratedBox(
         decoration: BoxDecoration(
-          gradient: LinearGradient(
+         /* gradient: LinearGradient(
             begin: .topCenter,
             end: .bottomCenter,
             colors: [AppColors.welcomeGradientStart, AppColors.welcomeGradientMid, AppColors.welcomeGradientEnd],
             stops: const [0, 0.58, 1],
-          ),
+          ),*/
         ),
         child: SafeArea(
           bottom: false,
           child: Stack(
             children: [
-              Positioned(
+            /*  Positioned(
                 left: MediaQuery.sizeOf(context).width * NumberConstant.welcomeHeroLeftFraction,
                 right: 0,
                 bottom: 0,
@@ -41,17 +41,21 @@ class WelcomeScreen extends StatelessWidget {
                   child: DecoratedBox(
                     decoration: BoxDecoration(border: .all(color: AppColors.welcomeHeroBorder, width: NumberConstant.welcomeHeroBorderWidth)),
                     child: Image.asset(AssetRes.welcomeHero, fit: .cover,),
+
                   ),
                 ),
-              ),
+              ),*/
               Padding(
                 padding: .fromLTRB(NumberConstant.welcomeHorizontalPadding, 8, NumberConstant.welcomeHorizontalPadding, 0),
                 child: Column(
                   spacing: NumberConstant.welcomeContentTopSpacing,
                   crossAxisAlignment: .stretch,
                   children: [
-                    _buildProgress(),
-                    Padding(padding: .only(left: NumberConstant.welcomeHeadlineLeft - NumberConstant.welcomeHorizontalPadding), child: _buildHeadlineRow(),),
+                    // _buildProgress(),
+                    Padding(padding: .only(
+                        left: NumberConstant.welcomeHeadlineLeft - NumberConstant.welcomeHorizontalPadding),
+                      child: _buildHeadlineRow(),
+                    ),
                   ],
                 ),
               ),
@@ -99,9 +103,9 @@ class WelcomeScreen extends StatelessWidget {
           child: Text.rich(
             TextSpan(
               children: [
-                TextSpan(text: StringConst.welcomeJoin, style: AppTextStyles.welcomeHeadline),
-                TextSpan(text: StringConst.welcomeSocials, style: AppTextStyles.welcomeHeadlineAccent),
-                TextSpan(text: '\n${StringConst.welcomeNetwork}\n${StringConst.welcomeForAmplify}\n${StringConst.welcomeInYour}\n${StringConst.welcomeLife}', style: AppTextStyles.welcomeHeadline),
+                //welcomeJoin, welcomeHeadline,
+                //welcomeSocials, welcomeHeadlineAccent,
+                //\n${StringConst.welcomeNetwork}\n${StringConst.welcomeForAmplify}\n${StringConst.welcomeInYour}\n${StringConst.welcomeLife}, welcomeHeadline
               ],
             ),
           ),
@@ -113,18 +117,20 @@ class WelcomeScreen extends StatelessWidget {
 
   Widget _buildAvatarBubble() {
     return DecoratedBox(
-      decoration: BoxDecoration(color: AppColors.welcomeAvatarBg, shape: .circle),
+      //welcomeAvatarBg
+      decoration: BoxDecoration(color: Colors.transparent, shape: .circle),
       child: Padding(
         padding: .all(NumberConstant.welcomeAvatarPadding),
         child: Row(
           mainAxisSize: .min,
-          children: [for (final avatar in AppData.welcomeAvatars) Image.asset(avatar, height: NumberConstant.welcomeAvatarImageHeight, fit: .cover,)],
+          // children: [for (final avatar in AppData.welcomeAvatars) Image.asset(avatar, height: NumberConstant.welcomeAvatarImageHeight, fit: .cover,)],
         ),
       ),
     );
   }
 
   Widget _buildCta(BuildContext context) {
+    return SizedBox();
     return GestureDetector(
       onTap: () => context.go(NamedRoutes.home.routeName),
       child: ClipRRect(
@@ -137,16 +143,20 @@ class WelcomeScreen extends StatelessWidget {
             child: Row(
               children: [
                 DecoratedBox(
-                  decoration: BoxDecoration(color: AppColors.whiteColor, shape: .circle),
+                  //whiteColor
+                  decoration: BoxDecoration(color: Colors.transparent, shape: .circle),
                   child: Padding(
                     padding: .all(NumberConstant.welcomeLockPadding),
-                    child: SvgPicture.asset(AssetRes.icLock, colorFilter: .mode(AppColors.blackColor, .srcIn),),
+                    //icLock
+                    child: const SizedBox()
                   ),
                 ),
-                Expanded(child: Text(StringConst.letsStarted, style: AppTextStyles.welcomeCta, textAlign: .center,)),
+                //letsStarted, welcomeCta, .center
+                Expanded(child: const SizedBox()),
                 Padding(
                   padding: .only(right: NumberConstant.welcomeCtaTrailingPadding),
-                  child: Opacity(opacity: NumberConstant.welcomeChevronOpacity, child: Text(StringConst.welcomeCtaChevrons, style: AppTextStyles.welcomeCtaChevron,),),
+                  //welcomeCtaChevrons, welcomeCtaChevron
+                  child: Opacity(opacity: NumberConstant.welcomeChevronOpacity, child: const SizedBox()),
                 ),
               ],
             ),

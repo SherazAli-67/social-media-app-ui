@@ -10,8 +10,9 @@ class AssetRes {
   static const storyLuiz = '${_imagesPath}story_luiz.png';
   static const storyNina = '${_imagesPath}story_nina.png';
   static const storyIzaa = '${_imagesPath}story_izaa.png';
-  static const post1 = '${_imagesPath}post_1.png';
-  static const post2 = '${_imagesPath}post_2.png';
+  static const post1 = '${_imagesPath}post_1.jpg';
+  static const post2 = '${_imagesPath}post_2.jpg';
+  static const post3 = '${_imagesPath}post_3.jpg';
   static const profileCover = '${_imagesPath}profile_cover.png';
   static const profileAvatar = '${_imagesPath}profile_avatar.jpeg';
   static const grid1 = '${_imagesPath}grid_1.png';

@@ -14,6 +14,9 @@ class AppData {
     StoryModel(name: 'Luiz', image: AssetRes.storyLuiz),
     StoryModel(name: 'Nina', image: AssetRes.storyNina),
     StoryModel(name: 'Izaa', image: AssetRes.storyIzaa),
+    StoryModel(name: 'Irma', image: AssetRes.storyIrma, isLive: true),
+    StoryModel(name: 'Amanda', image: AssetRes.storyAmanda),
+    StoryModel(name: 'Luiz', image: AssetRes.storyLuiz),
   ];
 
   static const posts = [
@@ -39,6 +42,18 @@ class AppData {
       shares: 229,
       caption: '',
       aspectRatio: NumberConstant.postSecondaryAspectRatio,
+      isVerified: true,
+    ),
+    PostModel(
+      author: 'Alana maesya',
+      handle: '@Naisyaatxt',
+      avatar: AssetRes.storyIrma,
+      image: AssetRes.post3,
+      likes: 1245,
+      comments: 173,
+      shares: 229,
+      caption: 'Love your mine #lovetoyou #foryourpage\n#beautifull #popular #peoplefrost',
+      aspectRatio: NumberConstant.postAspectRatio,
       isVerified: true,
     ),
   ];
