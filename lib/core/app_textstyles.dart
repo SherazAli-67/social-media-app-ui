@@ -95,6 +95,22 @@ class AppTextStyles {
     color: AppColors.whiteColor,
   );
 
+  static const postVerified = TextStyle(
+    fontFamily: StringConst.appFontFamily,
+    fontWeight: .w400,
+    fontSize: 11,
+    height: 16.5 / 11,
+    color: AppColors.verifiedColor,
+  );
+
+  static const moreOptions = TextStyle(
+    fontFamily: StringConst.appFontFamily,
+    fontWeight: .w400,
+    fontSize: 25,
+    height: 37.5 / 25,
+    color: AppColors.whiteColor,
+  );
+
   static const profileName = TextStyle(
     fontFamily: StringConst.appFontFamily,
     fontWeight: .w500,

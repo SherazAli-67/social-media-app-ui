@@ -24,6 +24,8 @@ class AppColors {
   static const postOverlayStart = Color(0x77101010);
   static const postOverlayEnd = Color(0xBB111111);
   static const moreButtonBg = Color(0xA192908D);
+  static const postAvatarBorder = Color(0x99FFFFFF);
+  static const postOverlayMid = Color(0x00000000);
   static const coverOverlayTop = Color(0x55FFFFFF);
   static const coverOverlayBottom = Color(0x55000000);
 }
