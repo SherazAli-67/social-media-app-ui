@@ -29,6 +29,15 @@ class AppTextStyles {
     color: AppColors.whiteColor,
   );
 
+  static const welcomeCtaChevron = TextStyle(
+    fontFamily: StringConst.appFontFamily,
+    fontWeight: .w300,
+    fontSize: 30,
+    height: 30 / 30,
+    letterSpacing: -8,
+    color: AppColors.whiteColor,
+  );
+
   static const appBarTitle = TextStyle(
     fontFamily: StringConst.appFontFamily,
     fontWeight: .w500,
